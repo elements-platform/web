@@ -45,5 +45,5 @@ jobs:
         cd /tmp/platform
         touch /tmp/platform/.nojekyll
         git add .
-        git commit -m "Build elements-web/core@$GIT_SHA"
+        git commit --allow-empty -m "Build elements-web/core@$GIT_SHA"
         git push

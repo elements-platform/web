@@ -1,11 +1,13 @@
 {
 	"compilerOptions": {
 		"module": "esnext",
+		"lib": [ "DOM", "ES2018" ],
 		"moduleResolution": "node",
 		"baseUrl": "./",
 		"paths": {
 			"@/*": ["src/*"],
-		}
+		},
+		"allowJs": true,
 	},
 	"include": [
 		"src/**/*",

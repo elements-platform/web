@@ -1,0 +1,33 @@
+@keyframes blink {
+	0% { color: var(--blink-color); }
+	50% { color: var(--blink-color-second); }
+	100% { color: var(--blink-color); }
+}
+
+:root{
+	font-size: 16px;
+}
+
+html{
+	min-height: 100%;
+	background: var(--bg-primary);
+	margin: 0;
+}
+
+*{
+	outline: none;
+}
+
+button::-moz-focus-inner{
+	border: 0;
+}
+
+input, textarea, button, select, a{
+	-webkit-tap-highlight-color: #0000;
+}
+
+body{
+	color: var(--text-color);
+	font-family: 'Exo 2', 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+	padding: 1.5rem;
+}

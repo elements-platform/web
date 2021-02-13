@@ -16,6 +16,7 @@ html{
 
 *{
 	outline: none;
+	--font-size: var(--font-size-override, 1rem);
 }
 
 button::-moz-focus-inner{

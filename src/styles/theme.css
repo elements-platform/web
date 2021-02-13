@@ -20,6 +20,7 @@ html{
 	--invert-amount: 0%;
 	--live-record-color: #f00;
 }
+
 @media (prefers-color-scheme: dark) {
 	html{
 		--theme-light-color: #212b3a;

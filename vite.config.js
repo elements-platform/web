@@ -16,6 +16,7 @@ const config = {
 	css: {
 		modules: {
 			scopeBehaviour: 'local',
+			localsConvention: 'camelCaseOnly',
 		},
 	},
 }

@@ -1,0 +1,15 @@
+{
+	"name": "mfelements-vite",
+	"version": "0.0.0",
+	"scripts": {
+		"start": "vite",
+		"build": "vite build"
+	},
+	"dependencies": {
+		"preact": "^10.5.9"
+	},
+	"devDependencies": {
+		"@prefresh/vite": "^2.0.0",
+		"vite": "^2.0.0-beta.12"
+	}
+}

@@ -1,0 +1,49 @@
+name: Build
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+
+  build:
+    name: Code generate
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Set up Node
+      uses: actions/setup-node@v2
+      with:
+        node-version: '15'
+        check-latest: true
+
+    - name: Check out the code
+      uses: actions/checkout@v2
+
+    - name: Get dependencies
+      run: yarn
+
+    - name: Generate production code
+      run: yarn build --outDir /tmp/platform
+
+    - name: Upload to repository
+      env:
+        DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+      run: |
+        KEYFILE=$(mktemp)
+        REPODIR=$(mktemp -d)
+        GIT_SHA=$(git rev-parse --short HEAD)
+        git config --global user.email "buildbot@bassteam.freeland"
+        git config --global user.name "BASSTeam build bot"
+        chmod 600 "$KEYFILE"
+        echo "$DEPLOY_KEY" > "$KEYFILE"
+        cp -rp "$(pwd)/.ssh" ~
+        echo "Host github.com" >> ~/.ssh/config
+        echo " IdentityFile $KEYFILE" >> ~/.ssh/config
+        git clone --depth=1 ssh://git@github.com/elements-web/elements-web.github.io "$REPODIR"
+        mv "$REPODIR/.git" /tmp/platform/
+        cd /tmp/platform
+        touch /tmp/platform/.nojekyll
+        git add .
+        git commit -m "Build elements-web/core@$GIT_SHA"
+        git push

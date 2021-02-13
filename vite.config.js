@@ -1,5 +1,7 @@
 // @ts-check
 import preactRefresh from '@prefresh/vite'
+import { resolve } from 'path'
+import { fileURLToPath } from 'url'
 
 /**
  * @type { import('vite').UserConfig }
@@ -18,6 +20,9 @@ const config = {
 			scopeBehaviour: 'local',
 			localsConvention: 'camelCaseOnly',
 		},
+	},
+	alias: {
+		'@': resolve(fileURLToPath(import.meta.url), '..', 'src'),
 	},
 }
 

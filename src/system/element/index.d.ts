@@ -1,8 +1,6 @@
 import { Component } from 'preact'
-import API from '@/system/api'
 
 type BaseProps = {
-    api: API
 }
 
 type BaseState = {

@@ -1,0 +1,8 @@
+.block{
+	background: var(--bg-secondary);
+	padding: calc(1.5 * var(--font-size));
+	border-radius: var(--border-radius);
+	margin-bottom: calc(1.5 * var(--font-size));
+	box-shadow: var(--block-shadow);
+	min-width: min-content;
+}

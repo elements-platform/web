@@ -1,4 +1,4 @@
-import API from '../../system/api'
+import API from '@/system/api'
 
 interface GlobalStore<T extends { [x: string]: any }> extends Map<keyof any, any>{
     delete<K extends keyof T>(key: K): boolean;

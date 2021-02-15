@@ -26,13 +26,16 @@ jobs:
     - name: Generate production code
       run: yarn build --outDir /tmp/platform
 
+    - name: Getting target SHA
+      run: git rev-parse --short HEAD > /tmp/platform.v
+
     - name: Upload to repository
       env:
         DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
       run: |
         KEYFILE=$(mktemp)
         REPODIR=$(mktemp -d)
-        GIT_SHA=$(git rev-parse --short HEAD)
+        GIT_SHA=$(cat /tmp/platform.v)
         git config --global user.email "buildbot@bassteam.freeland"
         git config --global user.name "BASSTeam build bot"
         chmod 600 "$KEYFILE"
@@ -47,3 +50,31 @@ jobs:
         git add .
         git commit --allow-empty -m "Build elements-web/core@$GIT_SHA"
         git push
+
+    - name: Send notify to Telegam
+      env:
+        TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+        TG_LOG_CHAT: ${{ secrets.TG_LOG_CHAT }}
+      run: |
+        GIT_SHA=$(cat /tmp/platform.v)
+        TEXT=$(cat - <<EOF | node -
+        function replaceSpecial(str, entity){
+          return str.replaceAll(entity, '\\\\' + entity);
+        }
+
+        let str = \`
+        Successfully built [elements-web/core@$GIT_SHA](https://github.com/elements-web/core/commit/$GIT_SHA).
+        Access at https://elements-web.github.io
+        \`;
+
+        for(const entity of [
+          '\\\\',
+          '.',
+          '-',
+        ]) str = replaceSpecial(str, entity);
+
+        console.log(encodeURIComponent(str));
+        EOF
+        )
+
+        curl -s "https://api.telegram.org/bot$TG_BOT_TOKEN/sendMessage?chat_id=$TG_LOG_CHAT&parse_mode=MarkdownV2&text=$TEXT"

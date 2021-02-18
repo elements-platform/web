@@ -1,5 +1,5 @@
 // @ts-check
-import preactRefresh from '@prefresh/vite'
+import preactRefresh from './refreshPlugin'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
 
@@ -22,6 +22,7 @@ const config = {
 		},
 	},
 	alias: {
+		// @ts-ignore
 		'@': resolve(fileURLToPath(import.meta.url), '..', 'src'),
 	},
 }

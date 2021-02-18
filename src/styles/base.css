@@ -25,6 +25,7 @@ button::-moz-focus-inner{
 
 input, textarea, button, select, a{
 	-webkit-tap-highlight-color: #0000;
+	font-family: inherit;
 }
 
 body{

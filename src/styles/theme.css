@@ -5,7 +5,7 @@ html{
 	--bg-primary: #f7f7f7;
 	--bg-secondary: #fff;
 	--text-color: #000;
-	--text-mid-color: #fff;
+	--text-mid-color: #888;
 	--text-light-color: #000;
 	--text-dark-color: #fff;
 	--btn-shadow:
@@ -28,7 +28,7 @@ html{
 		--bg-primary: #1f1f1f;
 		--bg-secondary: #242424;
 		--text-color: #d4d4d4;
-		--text-mid-color: #242424;
+		--text-mid-color: #aaa;
 		--text-light-color: #d4d4d4;
 		--text-dark-color: #242424;
 		--invert-amount: 86%;

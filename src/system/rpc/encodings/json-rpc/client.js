@@ -1,3 +1,4 @@
+// @ts-check
 import NamedError from '@/system/helpers/namedError'
 
 class JSONRPCError extends NamedError{
@@ -15,8 +16,8 @@ class JSONRPCError extends NamedError{
 }
 
 /**
- * @typedef {import('@/system/transports').ClientTransport<string>} BaseTransport
- * @typedef {import('@/system/transports').ClientEncodedTransport<string>} EncodedTransport
+ * @typedef {import('@/system/rpc').BaseTransport<string>} BaseTransport
+ * @typedef {import('@/system/rpc').ClientEncodedTransport<string>} EncodedTransport
  */
 
 /** @arg {BaseTransport} transport */

@@ -6,6 +6,7 @@
 		"build": "vite build"
 	},
 	"dependencies": {
+		"js-yaml": "^4.0.0",
 		"markdown-it": "^12.0.4",
 		"preact": "^10.5.9"
 	},
@@ -14,6 +15,7 @@
 		"@babel/plugin-proposal-numeric-separator": "^7.12.13",
 		"@babel/plugin-proposal-private-methods": "^7.12.13",
 		"@prefresh/vite": "2.1.0",
+		"@types/js-yaml": "^4.0.0",
 		"@types/markdown-it": "^12.0.1",
 		"vite": "^2.0.1"
 	}

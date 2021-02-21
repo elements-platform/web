@@ -1,5 +1,5 @@
 {
-	"name": "mfelements-vite",
+	"name": "elements-web",
 	"version": "0.0.0",
 	"scripts": {
 		"start": "vite",

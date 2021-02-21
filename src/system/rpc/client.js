@@ -8,7 +8,9 @@ export default transport => {
 
 	transport.onmessage = data => {
 		try{
-			const { result, error, id } = transport.decode(data);
+			const decoded = transport.decode(data);
+			if(!('result' in decoded || 'error' in decoded)) return; // to prevent problems using the same base transport as a client and a server
+			const { result, error, id } = decoded;
 			if(id in resolvers || id in callbackResolvers){
 				const { resolve, reject } = resolvers[id] || callbackResolvers[id];
 				delete resolvers[id];

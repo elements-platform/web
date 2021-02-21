@@ -96,7 +96,7 @@ export const DictionaryConstructor = class Dictionary{
 	}
 
 	static async load(path){
-		const dictUrl = new URL(path, await getApiUrl());
+		const dictUrl = new URL(path, getApiUrl());
 		const index = await getYaml(dictUrl);
 		const langBestVariants = await Promise.all(searchBestVariants(index).map(url => getYaml(new URL(url, dictUrl))));
 		langBestVariants.forEach(checkDictionary);

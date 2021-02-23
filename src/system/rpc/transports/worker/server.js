@@ -1,4 +1,3 @@
-// @ts-check
 /** @typedef {import('@/system/rpc').ServerTransport<any>} ServerTransport */
 
 /**

@@ -1,4 +1,3 @@
-// @ts-check
 import { getApiUrl } from '@/system/api'
 import yaml from '@/system/yaml'
 import sprintf from '@/system/sprintf'

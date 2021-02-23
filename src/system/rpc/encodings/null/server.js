@@ -1,4 +1,3 @@
-// @ts-check
 function emptyEncoding(data){
 	return data
 }

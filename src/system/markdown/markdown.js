@@ -1,4 +1,3 @@
-// @ts-check
 import createRPCServer from '@/system/rpc/server'
 import createRPCClient from '@/system/rpc/client'
 import encodeServerTransport from '@/system/rpc/encodings/null/server'

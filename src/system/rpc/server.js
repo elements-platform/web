@@ -1,4 +1,3 @@
-// @ts-check
 /**
  * @param {import('@/system/rpc').ServerEncodedTransport<any>} transport
  */

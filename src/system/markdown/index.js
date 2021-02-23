@@ -1,4 +1,3 @@
-// @ts-check
 // @ts-ignore
 import Worker from './markdown?worker'
 import createRPCServer from '@/system/rpc/server'

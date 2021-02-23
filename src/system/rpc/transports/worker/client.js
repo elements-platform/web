@@ -1,4 +1,3 @@
-// @ts-check
 /** @arg {Worker} worker */
 export default function createTransport(worker){
 	/** @type {import('@/system/rpc').BaseTransport<any>} */

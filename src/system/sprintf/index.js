@@ -1,4 +1,3 @@
-// @ts-check
 const types = {
     string: '%s',
     number: '%d',

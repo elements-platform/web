@@ -1,4 +1,3 @@
-// @ts-check
 import NamedError from '@/system/helpers/namedError'
 
 class JSONRPCError extends NamedError{

@@ -1,4 +1,3 @@
-// @ts-check
 import rand from '@/system/rand'
 
 /** @arg {import('@/system/rpc').ClientEncodedTransport<any>} transport */

@@ -11,6 +11,7 @@
 		"allowJs": true,
 		"outDir": "./dist",
 		"target": "ES2018",
+		"checkJs": true,
 	},
 	"include": [
 		"src/**/*",

@@ -1,4 +1,3 @@
-// @ts-check
 import * as bit64 from '@/system/bit64'
 
 const local4 = [

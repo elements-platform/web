@@ -1,4 +1,3 @@
-// @ts-check
 import preactRefresh from './refreshPlugin'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'

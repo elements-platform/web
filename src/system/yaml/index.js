@@ -1,4 +1,3 @@
-// @ts-check
 import yaml from 'js-yaml'
 
 function constructJavascriptFunction({ args, body }) {

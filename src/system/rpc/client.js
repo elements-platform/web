@@ -52,7 +52,7 @@ export default transport => {
 			const id = rand();
 			if(typeof args[args.length - 1] === 'function'){
 				const callback = args.pop();
-				call(method, id, args, val => callback(null, val), err => callback(err));
+				call(method, id, args, val => callback(null, val), err => callback(err), true);
 				return
 			}
 			return new Promise((resolve, reject) => call(method, id, args, resolve, reject))

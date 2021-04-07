@@ -20,9 +20,11 @@ const config = {
 			localsConvention: 'camelCaseOnly',
 		},
 	},
-	alias: {
-		// @ts-ignore
-		'@': resolve(fileURLToPath(import.meta.url), '..', 'src'),
+	resolve: {
+		alias: {
+			// @ts-ignore
+			'@': resolve(fileURLToPath(import.meta.url), '..', 'src'),
+		},
 	},
 }
 

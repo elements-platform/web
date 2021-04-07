@@ -1,5 +1,7 @@
 {
 	"compilerOptions": {
+		"jsx": "react-jsx",
+		"jsxImportSource": "preact",
 		"module": "esnext",
 		"lib": [ "DOM", "ES2018" ],
 		"moduleResolution": "node",

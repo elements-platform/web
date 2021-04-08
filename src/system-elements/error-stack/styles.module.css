@@ -1,0 +1,31 @@
+.stack{
+    --margin: 1.25rem;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: calc(100% - var(--margin) * 2);
+    max-height: calc(100% - var(--margin) * 2);
+    margin: var(--margin);
+    display: flex;
+    flex-direction: column;
+}
+
+.message{
+    background-color: #0009;
+    color: #fff;
+    padding: .5rem;
+    border-radius: .5rem;
+    margin: .25rem 0;
+}
+
+.message:first-child{
+    margin-top: 0;
+}
+
+.message:last-child{
+    margin-bottom: 0;
+}
+
+.message > pre {
+    margin: 1rem;
+}

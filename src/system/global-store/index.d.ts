@@ -1,4 +1,4 @@
-import API from '@/system/api'
+import { JSXInternal } from 'preact/src/jsx'
 
 interface GlobalStore<T extends { [x: string]: any }> extends Map<keyof any, any>{
     delete<K extends keyof T>(key: K): boolean;
@@ -10,7 +10,8 @@ interface GlobalStore<T extends { [x: string]: any }> extends Map<keyof any, any
 }
 
 declare const globalStore: GlobalStore<{
-    api: API
+    setPage: (page: JSXInternal.Element) => void
+    showError: (error: Error | string) => void
 }>
 
 export default globalStore

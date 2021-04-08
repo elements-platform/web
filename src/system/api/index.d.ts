@@ -2,10 +2,7 @@ type API = {
     [method: string]: (...args: any[]) => Promise<any>
 }
 
-declare const API: {
-    new(): API
-    prototype: API
-}
+declare const API: API
 
 export default API
 

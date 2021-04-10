@@ -1,4 +1,4 @@
-import NamedError from '@/system/helpers/namedError'
+import { NamedError } from '@/system/helpers/errors'
 
 class JSONRPCError extends NamedError{
 	/** @arg {{ code: number, message: string, data?: { stack?: string } }} arg_0 */

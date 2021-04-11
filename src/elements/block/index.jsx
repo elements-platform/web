@@ -1,13 +1,22 @@
 import { Component } from 'preact'
 import { block } from './styles.module.css'
+import render from '@/system/render'
 
 export default class Block extends Component{
-    props = {}
+    props = {
+        children: []
+    }
     render(){
-        return <div class={block}></div>
+        return <div class={block}>
+            {this.props.children.map(render)}
+        </div>
     }
 }
 
-export function render(params){
+function renderBlock(params){
     return <Block {...params}/>
+}
+
+export {
+    renderBlock as render
 }

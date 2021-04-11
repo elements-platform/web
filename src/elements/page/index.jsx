@@ -10,7 +10,7 @@ export default class Page extends Component{
 	}
 	render(){
 		const { children } = this.props;
-		return children.map(v => render(v))
+		return children.map(render)
 	}
 }
 

@@ -1,6 +1,12 @@
 import globalStore from '@/system/global-store'
 import { Component } from 'preact'
 import render from '@/system/render'
+import { getApiUrl } from '@/system/api';
+
+const iconElement = document.head.querySelector('link[rel="shortcut icon"]'),
+	titleElement = document.head.querySelector('title'),
+	defaultIcon = iconElement.getAttribute('href'),
+	defaultTitle = titleElement.innerText;
 
 export default class Page extends Component{
 	props = {
@@ -9,7 +15,9 @@ export default class Page extends Component{
 		children: [],
 	}
 	render(){
-		const { children } = this.props;
+		const { children, title, icon } = this.props;
+		titleElement.innerText = title || defaultTitle;
+		iconElement.setAttribute('href', icon ? new URL(icon, getApiUrl()).href : defaultIcon);
 		return children.map(render)
 	}
 }

@@ -30,6 +30,7 @@ input, textarea, button, select, a{
 
 body{
 	color: var(--text-color);
+	background-color: inherit;
 	font-family: 'Exo 2', 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 	padding: 1.5rem;
 }

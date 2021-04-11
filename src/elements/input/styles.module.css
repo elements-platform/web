@@ -1,5 +1,6 @@
 .wrap{
 	position: relative;
+	background-color: inherit;
 }
 
 .ph{
@@ -34,6 +35,6 @@
 
 .input,
 .ph{
-	background: var(--bg-primary);
+	background: inherit;
     font-size: .82rem;
 }

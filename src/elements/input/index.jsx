@@ -1,7 +1,8 @@
-import Element from '@/system/element'
+import globalStore from '@/system/global-store'
+import { Component } from 'preact'
 import { wrap, input, ph } from './styles.module.css'
 
-export default class Input extends Element{
+export default class Input extends Component{
 	props = {
 		placeholder: ''
 	}
@@ -12,4 +13,8 @@ export default class Input extends Element{
 			<div class={ph}>{placeholder}</div>
 		</div>
 	}
+}
+
+export function render(params){
+    return <Input {...params}/>
 }

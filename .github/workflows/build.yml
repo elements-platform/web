@@ -64,7 +64,7 @@ jobs:
         git push
 
     - name: Send notify to Telegam
-      uses: KaMeHb-UA/telegram-ci-notify-action@master
+      uses: KaMeHb-UA/telegram-ci-notify-action@v1
       if: ${{ always() }}
       with:
         status: ${{ steps.upload.outcome }}

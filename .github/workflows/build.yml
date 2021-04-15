@@ -52,29 +52,11 @@ jobs:
         git push
 
     - name: Send notify to Telegam
-      env:
-        TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
-        TG_LOG_CHAT: ${{ secrets.TG_LOG_CHAT }}
-      run: |
-        GIT_SHA=$(cat /tmp/platform.v)
-        TEXT=$(cat - <<EOF | node -
-        function replaceSpecial(str, entity){
-          return str.replaceAll(entity, '\\\\' + entity);
-        }
-
-        let str = \`
-        Successfully built [elements-web/core@$GIT_SHA](https://github.com/elements-web/core/commit/$GIT_SHA).
-        Access at https://elements-web.github.io
-        \`;
-
-        for(const entity of [
-          '\\\\',
-          '.',
-          '-',
-        ]) str = replaceSpecial(str, entity);
-
-        console.log(encodeURIComponent(str));
-        EOF
-        )
-
-        curl -s "https://api.telegram.org/bot$TG_BOT_TOKEN/sendMessage?chat_id=$TG_LOG_CHAT&parse_mode=MarkdownV2&text=$TEXT"
+      uses: KaMeHb-UA/telegram-ci-notify-action@master
+      if: ${{ always() }}
+      with:
+        success: ${{ success() }}
+        bot-token: ${{ secrets.TG_BOT_TOKEN }}
+        chat-id: ${{ secrets.TG_LOG_CHAT }}
+        container-name: https://elements-web.github.io
+        container-link: https://elements-web.github.io

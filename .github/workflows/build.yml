@@ -21,18 +21,30 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Get dependencies
+      id: deps
+      continue-on-error: true
       run: yarn
 
     - name: Generate production code
-      run: yarn build --outDir /tmp/platform
+      id: build
+      continue-on-error: true
+      env:
+        DEPS_RES: ${{ steps.deps.outcome }}
+      run: |
+        [ "$DEPS_RES" = failure ] && exit 1
+        yarn build --outDir /tmp/platform
 
     - name: Getting target SHA
       run: git rev-parse --short HEAD > /tmp/platform.v
 
     - name: Upload to repository
+      id: upload
       env:
         DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+        BUILD_RES: ${{ steps.build.outcome }}
+      continue-on-error: true
       run: |
+        [ "$BUILD_RES" = failure ] && exit 1
         KEYFILE=$(mktemp)
         REPODIR=$(mktemp -d)
         GIT_SHA=$(cat /tmp/platform.v)
@@ -55,7 +67,7 @@ jobs:
       uses: KaMeHb-UA/telegram-ci-notify-action@master
       if: ${{ always() }}
       with:
-        success: ${{ success() }}
+        status: ${{ steps.upload.outcome }}
         bot-token: ${{ secrets.TG_BOT_TOKEN }}
         chat-id: ${{ secrets.TG_LOG_CHAT }}
         container-name: https://elements-web.github.io

@@ -21,18 +21,10 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Get dependencies
-      id: deps
-      continue-on-error: true
       run: yarn
 
     - name: Generate production code
-      id: build
-      continue-on-error: true
-      env:
-        DEPS_RES: ${{ steps.deps.outcome }}
-      run: |
-        [ "$DEPS_RES" = failure ] && exit 1
-        yarn build --outDir /tmp/platform
+      run: yarn build --outDir /tmp/platform
 
     - name: Getting target SHA
       run: git rev-parse --short HEAD > /tmp/platform.v
@@ -41,10 +33,7 @@ jobs:
       id: upload
       env:
         DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
-        BUILD_RES: ${{ steps.build.outcome }}
-      continue-on-error: true
       run: |
-        [ "$BUILD_RES" = failure ] && exit 1
         KEYFILE=$(mktemp)
         REPODIR=$(mktemp -d)
         GIT_SHA=$(cat /tmp/platform.v)
@@ -64,7 +53,7 @@ jobs:
         git push
 
     - name: Send notify to Telegam
-      uses: KaMeHb-UA/telegram-ci-notify-action@v1
+      uses: KaMeHb-UA/telegram-ci-notify-action@v3
       if: ${{ always() }}
       with:
         status: ${{ steps.upload.outcome }}
@@ -72,3 +61,4 @@ jobs:
         chat-id: ${{ secrets.TG_LOG_CHAT }}
         container-name: https://elements-web.github.io
         container-link: https://elements-web.github.io
+        skip-is-fail: true

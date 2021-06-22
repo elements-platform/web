@@ -1,3 +1,9 @@
+KaMeHb-UA:
+  - KillaSam
+
+KillaSam:
+  - KaMeHb-UA
+
 "*":
   - KaMeHb-UA
   - KillaSam

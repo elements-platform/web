@@ -53,6 +53,7 @@ const httpImportPlugin = {
     },
 }
 
+/** @arg {string} moduleUrl */
 export default async moduleUrl => {
     await init;
     const res = await esbuild.build({

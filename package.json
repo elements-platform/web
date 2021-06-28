@@ -9,6 +9,7 @@
 		"cleanup": "git clean -dfX"
 	},
 	"dependencies": {
+		"browserfs": "^2.0.0",
 		"esbuild-wasm": "^0.12.6",
 		"js-yaml": "^4.0.0",
 		"markdown-it": "^12.0.4",
@@ -23,7 +24,7 @@
 		"@types/markdown-it": "^12.0.1",
 		"@types/node": "^15.0.0",
 		"concurrently": "^6.0.2",
-		"typescript": "^4.2.3",
+		"typescript": "^4.3.0",
 		"typescript-plugin-css-modules": "^3.2.0",
 		"vite": "^2.3.6"
 	}

@@ -10,7 +10,7 @@ services:
       - /bin/sh
       - -c
     command:
-      - yarn && yarn start
+      - yarn start
   proxy:
     image: nginx:alpine
     volumes:

@@ -1,4 +1,3 @@
-import preactRefresh from './refreshPlugin'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
 
@@ -11,9 +10,6 @@ const config = {
 		jsxFragment: 'Fragment',
 		jsxInject: `import { h, Fragment } from 'preact'`
 	},
-	plugins: [
-		preactRefresh(),
-	],
 	css: {
 		modules: {
 			scopeBehaviour: 'local',

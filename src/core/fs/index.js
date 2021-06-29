@@ -1,14 +1,14 @@
-import * as BrowserFS from 'browserfs';
+import { install, registerFileSystem, configure } from 'browserfs';
 import ElementsDevices from './dev';
 
 const container = Object.create(null);
 
-BrowserFS.install(container);
+install(container);
 // @ts-ignore
-BrowserFS.registerFileSystem(ElementsDevices.Name, ElementsDevices);
+registerFileSystem(ElementsDevices.Name, ElementsDevices);
 
 /** @type {Promise<void>} */
-export const init = new Promise((resolve, reject) => BrowserFS.configure({
+export const init = new Promise((resolve, reject) => configure({
 	fs: 'MountableFileSystem',
 	options: {
 		'/tmp': {

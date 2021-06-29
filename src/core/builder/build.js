@@ -10,36 +10,27 @@ import rand from '@/system/rand';
 const bfsContainer = Object.create(null),
 	efsName = 'ElementsDevices';
 
+function notSupported(context, method){
+	context[method + 'Sync'] = () => {
+		const code = BrowserFS.Errors.ErrorCode.ENOTSUP;
+		const message = BrowserFS.Errors.ErrorStrings[code];
+		throw new BrowserFS.Errors.ApiError(code, message);
+	};
+	context[method] = (...args) => {
+		try{
+			context[method + 'Sync']();
+		} catch(e){
+			args.pop()(e);
+		}
+	};
+}
+
 /** @implements {FileSystem} */
 class ElementsDevices{
 	static Name = efsName
 	static Options = {}
 	static Create = (_, callback) => callback(null, new ElementsDevices)
 	static isAvailable = () => true
-
-	#notSupported(method){
-		this[method + 'Sync'] = () => {
-			const code = BrowserFS.Errors.ErrorCode.ENOTSUP;
-			const message = BrowserFS.Errors.ErrorStrings[code];
-			throw new BrowserFS.Errors.ApiError(code, message);
-		};
-		this[method] = (...args) => {
-			try{
-				this[method + 'Sync']();
-			} catch(e){
-				args.pop()(e);
-			}
-		};
-	}
-
-	constructor(){
-		[
-			'rename',
-			'unlink',
-			'rmdir',
-			'mkdir',
-		].forEach(name => this.#notSupported(name));
-	}
 
 	getName(){
 		return efsName;
@@ -150,6 +141,13 @@ class ElementsDevices{
 		throw new Error('Method not implemented.');
 	}
 }
+
+[
+	'rename',
+	'unlink',
+	'rmdir',
+	'mkdir',
+].forEach(name => notSupported(ElementsDevices.prototype, name));
 
 BrowserFS.install(bfsContainer);
 BrowserFS.registerFileSystem(efsName, ElementsDevices);

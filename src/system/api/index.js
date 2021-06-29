@@ -5,7 +5,7 @@ import encodeClientTransport from '@/system/rpc/encodings/null/client'
 import createClientTransport from '@/system/rpc/transports/worker/client'
 import Hostname from '@/system/hostname'
 
-const serviceLink = new URL('https://' + location.href.slice(location.origin.length + 1));
+const serviceLink = new URL('https://' + location.hash.slice(1));
 
 if(new Hostname(serviceLink.hostname).local) serviceLink.protocol = 'http:';
 

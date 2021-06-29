@@ -86,13 +86,7 @@ export default async moduleUrl => {
 		plugins: [
 			importPlugin,
 		],
-		format: 'iife',
-		banner: {
-			js: '(async () => {',
-		},
-		footer: {
-			js: '})()',
-		},
+		format: 'esm',
 	});
 	return new TextDecoder().decode(res.outputFiles[0].contents)
 }

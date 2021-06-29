@@ -48,6 +48,7 @@ jobs:
         mv "$REPODIR/.git" /tmp/platform/
         cd /tmp/platform
         touch /tmp/platform/.nojekyll
+        mv /tmp/platform/index.html /tmp/platform/404.html
         git add .
         git commit --allow-empty -m "Build elements-web/core@$GIT_SHA"
         git push

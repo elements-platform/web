@@ -1,23 +1,25 @@
 import { Errors } from 'browserfs';
-/** @typedef { import('browserfs/dist/node/core/file_system').FileSystem } FileSystem */
+import FSStats from 'browserfs/dist/node/core/node_fs_stats';
+import { BaseFileSystem } from 'browserfs/dist/node/core/file_system';
 
-function notSupported(context, method){
-	context[method + 'Sync'] = () => {
-		const code = Errors.ErrorCode.ENOTSUP;
-		const message = Errors.ErrorStrings[code];
-		throw new Errors.ApiError(code, message);
-	};
-	context[method] = (...args) => {
-		try{
-			context[method + 'Sync']();
-		} catch(e){
-			args.pop()(e);
-		}
-	};
+const devices = Object.create(null);
+
+class Stats extends FSStats{
+	constructor(){
+		super(0, 0, 0, new Date(0), new Date(0), new Date(0));
+	}
+	isBlockDevice(){
+		return true;
+	}
+	isFile(){
+		return false;
+	}
+	isDirectory(){
+		return false;
+	}
 }
 
-/** @implements {FileSystem} */
-export default class ElementsDevices{
+export default class ElementsDevices extends BaseFileSystem{
 	static Name = 'ElementsDevices'
 	static Options = {}
 	static Create = (_, callback) => callback(null, new ElementsDevices)
@@ -26,14 +28,8 @@ export default class ElementsDevices{
 	getName(){
 		return ElementsDevices.Name;
 	}
-	diskSpace(_, cb){
-		cb(0, 0);
-	}
 	isReadOnly(){
 		return true;
-	}
-	supportsLinks(){
-		return false;
 	}
 	supportsProps(){
 		return false;
@@ -42,100 +38,66 @@ export default class ElementsDevices{
 		return false;
 	}
 	stat(p, isLstat, cb){
-		throw new Error('Method not implemented.');
+		if(p in devices){
+			cb(null, devices[p].stats);
+		} else {
+			cb(new Errors.ApiError(Errors.ErrorCode.ENOENT));
+		}
 	}
-	statSync(p, isLstat){
-		throw new Error('Method not implemented.');
-	}
+	/**
+	 * TODO: implement
+	 */
 	open(p, flag, mode, cb){
 		throw new Error('Method not implemented.');
 	}
-	openSync(p, flag, mode){
+	/**
+	 * TODO: implement
+	 */
+	readFile(p, flag, mode, cb){
 		throw new Error('Method not implemented.');
 	}
-	readdir(p, cb){
+	/**
+	 * TODO: implement
+	 */
+	writeFile(p, flag, mode, cb){
 		throw new Error('Method not implemented.');
 	}
-	readdirSync(p){
+	/**
+	 * TODO: implement
+	 */
+	appendFile(p, flag, mode, cb){
 		throw new Error('Method not implemented.');
 	}
-	exists(p, cb){
-		throw new Error('Method not implemented.');
+
+	/*
+	 * !NOT SUPPORTED METHODS
+	 */
+
+	openSync(){
+		throw new Errors.ApiError(Errors.ErrorCode.ENOTSUP);
 	}
-	existsSync(p){
-		throw new Error('Method not implemented.');
+	existsSync(){
+		throw new Errors.ApiError(Errors.ErrorCode.ENOTSUP);
 	}
 	realpath(p, cache, cb){
-		throw new Error('Method not implemented.');
+		cb(new Errors.ApiError(Errors.ErrorCode.ENOTSUP));
 	}
-	realpathSync(p, cache){
-		throw new Error('Method not implemented.');
+	realpathSync(){
+		throw new Errors.ApiError(Errors.ErrorCode.ENOTSUP);
 	}
 	truncate(p, len, cb){
-		throw new Error('Method not implemented.');
+		cb(new Errors.ApiError(Errors.ErrorCode.ENOTSUP));
 	}
-	truncateSync(p, len){
-		throw new Error('Method not implemented.');
-	}
-	readFile(fname, encoding, flag, cb){
-		throw new Error('Method not implemented.');
-	}
-	readFileSync(fname, encoding, flag) {
-		throw new Error('Method not implemented.');
-	}
-	writeFile(fname, data, encoding, flag, mode, cb){
-		throw new Error('Method not implemented.');
-	}
-	writeFileSync(fname, data, encoding, flag, mode){
-		throw new Error('Method not implemented.');
-	}
-	appendFile(fname, data, encoding, flag, mode, cb){
-		throw new Error('Method not implemented.');
-	}
-	appendFileSync(fname, data, encoding, flag, mode){
-		throw new Error('Method not implemented.');
-	}
-	chmod(p, isLchmod, mode, cb){
-		throw new Error('Method not implemented.');
-	}
-	chmodSync(p, isLchmod, mode){
-		throw new Error('Method not implemented.');
-	}
-	chown(p, isLchown, uid, gid, cb){
-		throw new Error('Method not implemented.');
-	}
-	chownSync(p, isLchown, uid, gid){
-		throw new Error('Method not implemented.');
-	}
-	utimes(p, atime, mtime, cb){
-		throw new Error('Method not implemented.');
-	}
-	utimesSync(p, atime, mtime){
-		throw new Error('Method not implemented.');
-	}
-	link(srcpath, dstpath, cb){
-		throw new Error('Method not implemented.');
-	}
-	linkSync(srcpath, dstpath){
-		throw new Error('Method not implemented.');
-	}
-	symlink(srcpath, dstpath, type, cb){
-		throw new Error('Method not implemented.');
-	}
-	symlinkSync(srcpath, dstpath, type){
-		throw new Error('Method not implemented.');
-	}
-	readlink(p, cb){
-		throw new Error('Method not implemented.');
-	}
-	readlinkSync(p) {
-		throw new Error('Method not implemented.');
+	truncateSync(){
+		throw new Errors.ApiError(Errors.ErrorCode.ENOTSUP);
 	}
 }
 
-[
-	'rename',
-	'unlink',
-	'rmdir',
-	'mkdir',
-].forEach(name => notSupported(ElementsDevices.prototype, name));
+export function registerDevice(name, reader, writer, stopper){
+	devices[name] = {
+		stats: new Stats,
+		reader,
+		writer,
+		stopper,
+	}
+}

@@ -17,39 +17,50 @@ jobs:
         node-version: '15'
         check-latest: true
 
-    - name: Check out the code
+    - name: Check out web core
       uses: actions/checkout@v2
+      with:
+        path: web
+        repository: elements-platform/web
+
+    - name: Check out elements-platform.github.io
+      uses: actions/checkout@v2
+      with:
+        ssh-key: ${{ secrets.GH_DEPLOY_KEY }}
+        path: elements-platform.github.io
+        repository: elements-platform/elements-platform.github.io
+
+    - name: Cleanup existing build artifacts
+      run: |
+        cd "$GITHUB_WORKSPACE/elements-platform.github.io"
+        mv .git ..
+        rm -rf ./* .*
+        mv ../.git .
 
     - name: Get dependencies
-      run: yarn
+      run: |
+        cd "$GITHUB_WORKSPACE/web"
+        yarn
 
     - name: Generate production code
-      run: yarn build --outDir /tmp/platform
+      run: |
+        cd "$GITHUB_WORKSPACE/web"
+        yarn build --outDir "$GITHUB_WORKSPACE/elements-platform.github.io"
 
-    - name: Getting target SHA
-      run: git rev-parse --short HEAD > /tmp/platform.v
+    - name: Get target SHA
+      id: target-sha
+      run: |
+        cd "$GITHUB_WORKSPACE/web"
+        echo "::set-output name=result::$(git rev-parse --short HEAD)"
 
     - name: Upload to repository
       id: upload
       env:
-        DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+        DEPLOY_KEY: ${{ secrets.GH_DEPLOY_KEY }}
       run: |
-        KEYFILE=$(mktemp)
-        REPODIR=$(mktemp -d)
-        GIT_SHA=$(cat /tmp/platform.v)
-        git config --global user.email "buildbot@bassteam.freeland"
-        git config --global user.name "BASSTeam build bot"
-        chmod 600 "$KEYFILE"
-        echo "$DEPLOY_KEY" > "$KEYFILE"
-        cp -rp "$(pwd)/.ssh" ~
-        echo "Host github.com" >> ~/.ssh/config
-        echo " IdentityFile $KEYFILE" >> ~/.ssh/config
-        git clone --depth=1 ssh://git@github.com/elements-web/elements-web.github.io "$REPODIR"
-        mv "$REPODIR/.git" /tmp/platform/
-        cd /tmp/platform
-        touch /tmp/platform/.nojekyll
+        cd "$GITHUB_WORKSPACE/elements-platform.github.io"
         git add .
-        git commit --allow-empty -m "Build elements-web/core@$GIT_SHA"
+        git commit --allow-empty -m "Build elements-platform/web@${{ steps.target-sha.outputs.result }}"
         git push
 
     - name: Send notify to Telegam
@@ -59,6 +70,6 @@ jobs:
         status: ${{ steps.upload.outcome }}
         bot-token: ${{ secrets.TG_BOT_TOKEN }}
         chat-id: ${{ secrets.TG_LOG_CHAT }}
-        container-name: https://elements-web.github.io
-        container-link: https://elements-web.github.io
+        container-name: https://elements-platform.github.io
+        container-link: https://elements-platform.github.io
         skip-is-fail: true

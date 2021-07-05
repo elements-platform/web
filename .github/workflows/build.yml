@@ -34,7 +34,7 @@ jobs:
       run: |
         cd "$GITHUB_WORKSPACE/elements-platform.github.io"
         mv .git ..
-        rm -rf ./* .*
+        rm -rf ./* .* || echo
         mv ../.git .
 
     - name: Get dependencies
